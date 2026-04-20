@@ -1,0 +1,358 @@
+ ## overview
+
+This document specifies the **style, structure, and formatting rules** used to write every specification `.md` file in this project.
+
+All specification files — regardless of subject — share a common anatomy, a consistent markdown style, and a set of content rules. This guide applies to every new spec type created now or in the future. When in doubt about style, match the existing spec files.
+
+---
+
+## File anatomy
+
+Every specification file must follow this exact top-level section order:
+
+```
+1. ## overview
+2. ## Documentation pattern
+3. ## Example: {Name}        ← one or more examples
+4. ## Naming conventions
+5. ## Best practices
+6. ## Documentation location
+7. ## Anti patterns
+```
+
+Optional reference sections (e.g., a shared enum table or a mode table) may be inserted between `## Documentation pattern` and the first `## Example:` when needed.
+
+---
+
+## Section rules
+
+### ## overview
+
+- Heading is always lowercase: `## overview`
+- First paragraph: one bold phrase stating what this document type represents, followed by one or two sentences of context
+- Second paragraph (optional): one sentence describing what each document specifies
+- Ends with a `**Documentation structure**` bold label followed by a numbered list of required sections
+- Section labels in the list match exactly the bold sub-section labels used in `## Documentation pattern`
+- Append `(when applicable)` to any section that is conditional
+
+Example structure:
+```markdown
+## overview
+
+{Type} represent the **{bold core concept}** of the application.
+
+{One or two context sentences.}
+
+**Documentation structure**
+
+Each {type} specification should include:
+
+1. {Section name}
+2. {Section name}
+3. {Section name} (when applicable)
+```
+
+---
+
+### ## Documentation pattern
+
+- Heading is always: `## Documentation pattern`
+- Contains a single sub-section: `### {TypePrefix}: {PlaceholderName}`
+- `{TypePrefix}` matches the type prefix from the Specification types table above
+- `{PlaceholderName}` uses `{PascalCase}` with curly braces
+- Every required section from the overview list appears here as a `**Bold**` sub-section label
+- Conditional sections include an italicised qualifier: `*(when applicable)*` or `*(ASYNC only)*`
+- Table cells use plain-text description placeholders — never leave a cell blank
+- Where a value is binary, use `Yes / No` or `Yes/No`
+
+---
+
+### ## Example: {RealName}
+
+- Heading is always: `## Example: {RealName}` where `{RealName}` is taken from actual code
+- Mirrors exactly the same sub-section structure as `## Documentation pattern`
+- Content is drawn from real implementation — never invented
+- Multiple examples are allowed; separate them with `---`
+- When an optional section does not apply, write a one-line note instead of omitting the section entirely (e.g., `Not applied for this consumer.`)
+
+---
+
+### ## Naming conventions
+
+Always contains exactly two `**Bold**` sub-sections:
+
+**File naming** — a code block with the naming pattern, followed by an `Example:` label and another code block with one or two real examples.
+
+**File location** — same structure as file naming, but for the full path.
+
+```markdown
+**File naming**
+
+\```
+{N}.{N}-{name}.md
+\```
+
+Example:
+\```
+1.0-participant.md
+\```
+
+**File location**
+
+\```
+specs/{path}/{N}.{N}-{name}.md
+\```
+
+Example:
+\```
+specs/domain-spec/domain/1.0-participant.md
+\```
+```
+
+---
+
+### ## Best practices
+
+- Contains one `**Bold**` sub-section per spec section documented in `## Documentation pattern`
+- Each sub-section is a bullet list
+- Bullets use the imperative voice: "State what...", "Document every...", "Always include..."
+- Maximum 4 bullets per sub-section
+- Focus on the *why* and *what*, not the *how*
+
+---
+
+### ## Documentation location
+
+- Contains a single code block with the path pattern
+- Followed by an `Examples:` label and a second code block listing two to five realistic paths
+
+```markdown
+## Documentation location
+
+{Type} specifications should be placed in:
+
+\```
+specs/{path}/{N}.{N}-{name}.md
+\```
+
+Examples:
+\```
+specs/...
+specs/...
+\```
+```
+
+---
+
+### ## Anti patterns
+
+Always contains exactly two `**Bold**` sub-sections:
+
+**Avoid these in {type} documentation:** — a bullet list of things never to do. The first bullet is always the emoji rule for this document type.
+
+**Keep documentation:** — always the same four bullets across all spec types:
+```
+- Concise but complete
+- {Focus adjective}-focused
+- Consistent across {type}
+- Up-to-date with {what changes}
+```
+
+---
+
+## Markdown formatting rules
+
+### Headings
+
+| Level | Usage                                              | Example                        |
+| ----- | -------------------------------------------------- | ------------------------------ |
+| `##`  | Top-level sections within a spec file              | `## overview`                  |
+| `###` | Named entities inside Documentation pattern and Example sections | `### Model: {EntityName}` |
+
+Never use `#` (H1) or `####` (H4+) inside spec files.
+
+### Bold
+
+Used exclusively for:
+- Sub-section labels inside `###` sections: `**Description**`, `**Properties**`
+- Key phrases in the overview paragraph
+- Sub-section labels inside `## Best practices` and `## Anti patterns`
+
+Never use bold inside table cells.
+
+### Code spans
+
+Wrap in backticks:
+- Field names: `` `room_id` ``
+- Enum values: `` `ACTIVE` ``
+- Class names: `` `ParticipantSchema` ``
+- Queue names: `` `voice-calling-retry-queue` ``
+- HTTP verbs and paths: `` `POST` ``, `` `/v1/voice-call` ``
+- Error codes: `` `QUOTA_EXCEEDED` ``
+
+Do not wrap in backticks:
+- Type names in table cells: `String`, `Long`, `Boolean`, `Object`
+- Collection types use escaped angle brackets: `List\<String>`, `Set\<String>`
+- Section names in prose
+
+### Code blocks
+
+Used for:
+- File naming and location patterns in `## Naming conventions`
+- Path patterns in `## Documentation location`
+- Validation order step lists in policy specs
+
+Always use fenced code blocks (triple backticks) without a language specifier unless the block contains actual code.
+
+### Horizontal rules
+
+Use `---` to separate every top-level section and every example from the next.
+
+Do not use `---` inside a `###` sub-section.
+
+### Blockquotes
+
+Used exclusively for ⚠️ callouts in spec types that have explicitly declared ⚠️ as an allowed emoji. Not permitted in any other context or spec type.
+
+---
+
+## Table conventions
+
+### Structure
+
+- Every table has a header row and a separator row
+- Separator row uses dashes (`---`) padded to match the column width with spaces
+- Every column is pipe-aligned with at least one space of padding on each side
+- No empty cells — use `—` (em dash) for intentionally absent values
+
+### Column naming
+
+| Column name  | When to use                                          |
+| ------------ | ---------------------------------------------------- |
+| `Description`| Final column in most tables — always the widest      |
+| `Required`   | `Yes` or `No` — never blank                          |
+| `Nullable`   | `Yes` or `No` — used in response body tables         |
+| `Type`       | Data type of the field                               |
+| `Format`     | Composite key format or value pattern                |
+| `Rationale`  | Used only in domain model rules tables               |
+
+### Placeholder rows
+
+Template tables use plain descriptive text as placeholder values:
+
+```markdown
+| `field_name` | String | Yes/No | What this field represents |
+```
+
+Never use `...` or leave cells empty in template tables.
+
+---
+
+## Placeholder syntax
+
+Placeholders always use `{PascalCase}` with curly braces. This applies to headings, prose, and table cells uniformly.
+
+**Heading placeholders** identify the subject of the pattern or example:
+
+| Pattern                        | Example result                    |
+| ------------------------------ | --------------------------------- |
+| `{TypePrefix}: {SubjectName}`  | `### Model: {EntityName}`         |
+| `{SubjectName}` (free form)    | `### Consumer: {ConsumerName}`    |
+
+**File-path placeholders** appear in naming conventions and documentation location sections:
+
+| Placeholder | Meaning                                          |
+| ----------- | ------------------------------------------------ |
+| `{N}.{N}`   | Version prefix (e.g., `1.0`, `2.1`)             |
+| `{name}`    | Kebab-case name of the subject being documented  |
+
+**Table cell placeholders** follow the same `{PascalCase}` rule and describe expected content:
+
+```markdown
+| `{field_name}` | String | Yes/No | What this field represents        |
+| `{part1}#{part2}` | —   | —      | Composite key segment description |
+```
+
+When defining a new spec type, introduce only the placeholders needed. Do not reuse placeholder names from other spec types for semantically different concepts.
+
+---
+
+## Emoji rules
+
+The default rule for all spec types is **no emojis**. A spec type may override this default only by declaring it explicitly in its `## Anti patterns` section and in this table.
+
+| Spec file              | Allowed emojis | Usage                                           |
+| ---------------------- | -------------- | ----------------------------------------------- |
+| `domain-models.md`     | None           | —                                               |
+| `domain-policies.md`   | ⚠️ only        | Blockquote callouts for critical caveats only   |
+| `database-tables.md`   | None           | —                                               |
+| `retry-policies.md`    | None           | —                                               |
+| `http-contracts.md`    | None           | —                                               |
+| `event-consumers.md`   | None           | —                                               |
+
+**For new spec types:** default is no emojis. If a use case requires ⚠️ callouts, declare it in the spec type's `## Anti patterns` section and add a row here. No emoji other than ⚠️ is ever permitted in any spec file.
+
+The first bullet of every `**Avoid these...**` anti-pattern section must always state the emoji rule explicitly.
+
+---
+
+## Language rules
+
+| Rule                        | Correct                                              | Incorrect                                  |
+| --------------------------- | ---------------------------------------------------- | ------------------------------------------ |
+| Tense in descriptions       | Present tense: "Stores participant sessions"         | "Will store", "Was used to"                |
+| Voice in best practices     | Imperative: "Document every field"                  | "You should document", "Fields are documented" |
+| Length of descriptions      | One or two sentences maximum                        | Multi-sentence paragraphs                  |
+| Business vs technical focus | "Participant is banned from the room"               | "Status enum is set to BANNED in DynamoDB" |
+| Required column values      | `Yes` or `No` — never "Required", "Optional"        | "Mandatory", "Optional", blank             |
+| Spec file titles            | No `#` H1 heading — files start at `## overview`    | `# ParticipantSchema`                      |
+
+---
+
+## When to create a new spec type
+
+Create a new spec type when a distinct layer, concern, or artifact in the system needs a repeatable documentation contract. A good spec type:
+
+- Documents **one specific kind of artifact** (a table, an endpoint, a consumer — not a mix)
+- Has a **fixed set of sections** that apply consistently across all documents of that type
+- Produces documents that **live under a single `specs/` sub-path**
+- Can be illustrated with **at least one real example** from the codebase
+
+Do not create a new spec type for a one-off document. Use it only when two or more documents of the same shape already exist or are planned.
+
+---
+
+## Adding a new specification type
+
+When creating a new specification type (new `.md` file in `application/`), follow these steps in order:
+
+1. Identify the **document type name** and a unique **type prefix** (e.g., `EventPublisher:`)
+2. Decide the **required sections** — list them in the `## overview` documentation structure
+3. Write the **`## Documentation pattern`** using only `{placeholder}` values — no real content
+4. Write **at least one `## Example:`** section drawn from real implementation code
+5. Decide the **emoji rule** — default is none; declare ⚠️ explicitly if needed
+6. Define the **documentation location** path under `specs/`
+7. Add the new type to the **Spec registry** table in this file
+8. Follow all formatting, table, placeholder, and language rules defined in this guide without exception
+
+---
+
+## Anti patterns
+
+**Avoid these in specification files:**
+
+- Never use H1 (`#`) headings — spec files always start at `## overview`
+- Never omit the `## Anti patterns` section
+- Never leave template table cells blank — use a placeholder description
+- Never invent example content — always draw from real code
+- Never mix concerns — each spec type documents one layer only
+- Never duplicate content across spec types — cross-reference instead
+- Never use prose paragraphs where a table can express the same information
+
+**Keep specifications:**
+
+- Concise but complete
+- Consistent in structure across all spec types
+- Grounded in real implementation examples
+- Up-to-date when new spec types are introduced
+
